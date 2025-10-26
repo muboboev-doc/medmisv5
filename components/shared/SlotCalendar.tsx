@@ -1,16 +1,20 @@
 
+
 import React, { useState } from 'react';
-import { Slot, Priority } from '../../types';
+// FIX: Import TranslationMap for correct typing of 't' prop.
+import { Slot, Priority, TranslationMap } from '../../types';
 import { ALL_PRIORITIES } from '../../constants';
 import { CalendarIcon, ClockIcon, LoadingIcon } from '../Icons'; // Ensure LoadingIcon is imported
-import BookingModal from './BookingModal';
+// FIX: Changed import to be a named import
+import { BookingModal } from './BookingModal';
 
 interface SlotCalendarProps {
   slots: Slot[];
   selectedDate: Date;
   onDateChange: (date: Date) => void;
   onBookSlot: (slotId: string, patientName: string, complaints: string, priority: Priority) => Promise<boolean>;
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop.
+  t: TranslationMap;
   title: string;
   isLoading?: boolean; // New prop for parent loading state
 }
@@ -61,7 +65,8 @@ const SlotCalendar: React.FC<SlotCalendarProps> = ({ slots, selectedDate, onDate
       <div className="mb-4">
         <h3 className="text-lg font-semibold text-slate-700 flex items-center">
             <CalendarIcon className="w-5 h-5 mr-2 text-slate-500"/>
-            {t.slotsFor} {selectedDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+            {/* FIX: Ensure translation value is treated as a string */}
+            {t.slotsFor as string} {selectedDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
         </h3>
       </div>
       
@@ -108,7 +113,8 @@ const SlotCalendar: React.FC<SlotCalendarProps> = ({ slots, selectedDate, onDate
             })}
         </div>
       ) : (
-        <p className="text-slate-500 text-center py-8">{t.noSlots}</p>
+        // FIX: Ensure translation value is treated as a string
+        <p className="text-slate-500 text-center py-8">{t.noSlots as string}</p>
       )}
 
       {selectedSlot && (

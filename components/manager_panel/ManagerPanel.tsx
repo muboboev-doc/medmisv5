@@ -178,10 +178,10 @@ const ManagerPanel: React.FC<ManagerPanelProps> = ({ t }) => {
                 <div>
                     <h2 className="text-xl font-bold text-slate-800 mb-3">{t['mgr.kpis']}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <KpiCard title={t['mgr.slaCompliance']} value={`${kpis?.slaCompliance}%`} />
-                        <KpiCard title={t['mgr.avgWaitTime']} value={kpis?.avgWaitTime || 'N/A'} />
+                        <KpiCard title={t['mgr.slaCompliance'] as string} value={`${kpis?.slaCompliance}%`} />
+                        <KpiCard title={t['mgr.avgWaitTime'] as string} value={kpis?.avgWaitTime || 'N/A'} />
                         <KpiCard title="SR / STD / PLN" value={`${kpis?.queueCounts.SR} / ${kpis?.queueCounts.STD} / ${kpis?.queueCounts.PLN}`} />
-                        <KpiGraph title={t['mgr.radLoad']} data={kpis?.radLoad || {}}/>
+                        <KpiGraph title={t['mgr.radLoad'] as string} data={kpis?.radLoad || {}}/>
                     </div>
                 </div>
 
@@ -213,7 +213,7 @@ const ManagerPanel: React.FC<ManagerPanelProps> = ({ t }) => {
                                                     {t[`reception.priority.${item.priority.toLowerCase()}`]}
                                                 </span>
                                             </td>
-                                            <td className="p-3 text-slate-600">{t[item.status.replace('_', '')] || item.status}</td>
+                                            <td className="p-3 text-slate-600">{t[item.status] as string || item.status}</td>
                                             <td className="p-3 text-slate-600 flex items-center">
                                                 {assignedRad ? <><UserCircleIcon className="w-4 h-4 mr-2 text-green-600"/>{assignedRad.name}</> : <span className="text-slate-400">{t['mgr.unassigned']}</span>}
                                             </td>

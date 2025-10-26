@@ -1,5 +1,7 @@
+
 import React from 'react';
-import { UserRole, Language } from '../types';
+// FIX: Import TranslationMap for correct typing of the 't' prop.
+import { UserRole, Language, TranslationMap } from '../types';
 import { ALL_ROLES, ALL_LANGUAGES } from '../constants';
 import { ChevronDownIcon, LogoutIcon } from './Icons';
 
@@ -8,7 +10,8 @@ interface HeaderProps {
   setRole: (role: UserRole) => void;
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop.
+  t: TranslationMap;
 }
 
 const Header: React.FC<HeaderProps> = ({ role, setRole, language, setLanguage, t }) => {
@@ -16,11 +19,13 @@ const Header: React.FC<HeaderProps> = ({ role, setRole, language, setLanguage, t
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 md:px-8 py-3 flex justify-between items-center">
         <h1 className="text-xl md:text-2xl font-bold text-blue-600">
-          {t.appName}
+          {/* FIX: Cast translation to string */}
+          {t.appName as string}
         </h1>
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <label htmlFor="role-select" className="sr-only">{t.role}</label>
+            {/* FIX: Cast translation to string */}
+            <label htmlFor="role-select" className="sr-only">{t.role as string}</label>
             <select
               id="role-select"
               value={role}
@@ -35,7 +40,8 @@ const Header: React.FC<HeaderProps> = ({ role, setRole, language, setLanguage, t
           </div>
 
           <div className="relative">
-            <label htmlFor="lang-select" className="sr-only">{t.language}</label>
+            {/* FIX: Cast translation to string */}
+            <label htmlFor="lang-select" className="sr-only">{t.language as string}</label>
             <select
               id="lang-select"
               value={language}
@@ -50,7 +56,8 @@ const Header: React.FC<HeaderProps> = ({ role, setRole, language, setLanguage, t
           </div>
           <button className="p-2 rounded-md hover:bg-slate-100 text-slate-500 hover:text-slate-700">
             <LogoutIcon className="h-5 w-5" />
-            <span className="sr-only">{t.logout}</span>
+            {/* FIX: Cast translation to string */}
+            <span className="sr-only">{t.logout as string}</span>
           </button>
         </div>
       </div>

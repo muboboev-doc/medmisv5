@@ -1,12 +1,17 @@
 
+
+
+
 import React from 'react';
-import { UserRole, Module } from '../types';
+// FIX: Import TranslationMap for correct typing of 't' prop.
+import { UserRole, Module, TranslationMap } from '../types';
 import { ROLE_MODULES } from '../constants';
 import * as Icons from './Icons';
 
 interface SidebarProps {
   role: UserRole;
-  t: Record<string, string>;
+  // FIX: Change 't' prop type to TranslationMap for correct type checking.
+  t: TranslationMap;
   activeModule: Module;
   setActiveModule: (module: Module) => void;
 }
@@ -39,7 +44,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role, t, activeModule, setActiveModul
   return (
     <aside className="w-64 bg-white shadow-md h-screen sticky top-0">
       <div className="p-4">
-        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">{t.appName}</h2>
+        <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider">{t.appName as string}</h2>
         <p className="text-sm text-slate-400 mt-1">{t.roles[role] || role}</p>
       </div>
       <nav>
@@ -59,7 +64,8 @@ const Sidebar: React.FC<SidebarProps> = ({ role, t, activeModule, setActiveModul
                   }
                 >
                   <Icon className="w-5 h-5 mr-3" />
-                  <span>{t[moduleKey] || moduleKey}</span>
+                  {/* FIX: Cast translation value to string to satisfy span's child type. */}
+                  <span>{(t.modules?.[moduleKey] || t[moduleKey]) as string || moduleKey}</span>
                 </button>
               </li>
             );

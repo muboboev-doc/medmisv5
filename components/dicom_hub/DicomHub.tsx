@@ -1,25 +1,28 @@
 
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FileMetadata, DicomPolicy, UserRole, Permissions } from '../../types';
+// FIX: Import TranslationMap for correct typing of 't' prop.
+import { FileMetadata, DicomPolicy, UserRole, Permissions, TranslationMap } from '../../types';
 // FIX: Corrected import statement
 import * as api from '../../services/api';
 // FIX: Replaced DocumentMagnifyingGlassIcon with SearchIcon which is already defined.
 import { LoadingIcon, FilmIcon, DocumentTextIcon, KeyIcon, ArrowUpTrayIcon, SearchIcon, ClipboardCopyIcon } from '../Icons';
-import { ALL_ROLES } from '../../constants';
 
 interface DicomHubProps {
-  t: Record<string, string>;
+  // FIX: Change 't' prop type to TranslationMap for correct type checking.
+  t: TranslationMap;
   permissions: Permissions;
 }
 
 type DicomHubTab = 'studyFiles' | 'accessPolicies';
 
+// FIX: Change 't' prop type to TranslationMap in UploadFileModalProps.
 interface UploadFileModalProps {
     isOpen: boolean;
     onClose: () => void;
     onUpload: (studyId: string, fileName: string, fileSize: number, fileType: 'dicom' | 'doc') => Promise<void>;
     studyId: string;
-    t: Record<string, string>;
+    t: TranslationMap;
     isLoading: boolean;
     initialFileType?: 'dicom' | 'doc'; // New prop
 }
@@ -132,7 +135,7 @@ const DicomHub: React.FC<DicomHubProps> = ({ t, permissions }) => {
         } catch (error) {
             console.error("Failed to fetch DICOM objects:", error);
             setFiles([]);
-            setErrorMessage(t['dicomhub.noFiles']);
+            setErrorMessage(t['dicomhub.noFiles'] as string);
         } finally {
             // Corrected: Use setIsLoadingFiles instead of undefined setIsLoading
             setIsLoadingFiles(false);
@@ -189,30 +192,30 @@ const DicomHub: React.FC<DicomHubProps> = ({ t, permissions }) => {
                 storageKey: `path/to/study/${selectedStudyId}/${fileName}`, // Mock storage key
             };
             await api.uploadDicomFile(selectedStudyId, newFile);
-            setSuccessMessage(t['dicomhub.uploadSuccess']);
+            setSuccessMessage(t['dicomhub.uploadSuccess'] as string);
             setShowSuccessToast(true);
             setTimeout(() => setShowSuccessToast(false), 3000);
             fetchFiles(selectedStudyId); // Refresh file list
         } catch (error) {
             console.error("Error uploading file:", error);
-            setErrorMessage(t['dicomhub.uploadError']);
+            setErrorMessage(t['dicomhub.uploadError'] as string);
         } finally {
             setIsUploadingFile(false);
         }
     };
 
     const handleRevokeLink = async (fileId: string) => {
-        if (!window.confirm(t['dicomhub.revokeConfirm'])) return;
+        if (!window.confirm(t['dicomhub.revokeConfirm'] as string)) return;
         setErrorMessage('');
         try {
             await api.revokeDicomLink(fileId);
-            setSuccessMessage(t['dicomhub.revokeSuccess']);
+            setSuccessMessage(t['dicomhub.revokeSuccess'] as string);
             setShowSuccessToast(true);
             setTimeout(() => setShowSuccessToast(false), 3000);
             // Fetch files will be triggered by WS event from `api.ts`
         } catch (error) {
             console.error("Error revoking link:", error);
-            setErrorMessage(t['dicomhub.revokeError']);
+            setErrorMessage(t['dicomhub.revokeError'] as string);
         }
     };
 
@@ -227,7 +230,7 @@ const DicomHub: React.FC<DicomHubProps> = ({ t, permissions }) => {
         setErrorMessage('');
         try {
             await Promise.all(policies.map(policy => api.updateDicomPolicy(policy)));
-            setSuccessMessage(t['dicomhub.policySaved']);
+            setSuccessMessage(t['dicomhub.policySaved'] as string);
             setShowSuccessToast(true);
             setTimeout(() => setShowSuccessToast(false), 3000);
         } catch (error) {
@@ -249,14 +252,13 @@ const DicomHub: React.FC<DicomHubProps> = ({ t, permissions }) => {
             <div className="flex items-center space-x-3">
                 <label htmlFor="studyIdInput" className="sr-only">{t['dicomhub.studyIdInput']}</label>
                 <div className="relative flex-grow">
-                    {/* FIX: Replaced DocumentMagnifyingGlassIcon with SearchIcon */}
                     <SearchIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                         type="text"
                         id="studyIdInput"
                         value={studyId}
                         onChange={(e) => setStudyId(e.target.value)}
-                        placeholder={t['dicomhub.studyIdInput']}
+                        placeholder={t['dicomhub.studyIdInput'] as string}
                         className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
@@ -285,7 +287,7 @@ const DicomHub: React.FC<DicomHubProps> = ({ t, permissions }) => {
             {studyId && (
                 <div className="bg-white p-4 rounded-lg shadow-sm border">
                     <h3 className="text-xl font-bold text-slate-800 mb-4">
-                        {t['dicomhub.fileList'].replace('{{studyId}}', studyId.slice(-6))}
+                        {(t['dicomhub.fileList'] as string).replace('{{studyId}}', studyId.slice(-6))}
                     </h3>
                     {isLoadingFiles ? (
                         <div className="flex justify-center items-center h-48"><LoadingIcon className="h-8 w-8 text-blue-600" /></div>

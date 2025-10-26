@@ -1,5 +1,6 @@
 
 
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { SlaSetting, BonusSetting, Priority, SlaDryRunResult, TranslationMap } from '../../types';
 import * as api from '../../services/api';
@@ -104,7 +105,7 @@ const BonusSlaControl: React.FC<BonusSlaControlProps> = ({ t }) => {
                         <p className="text-slate-500 text-xs">{t['bonus.affectedItems']}</p>
                     </div>
                      <div className="text-center p-2 bg-white rounded shadow-sm">
-                        <p className={`font-semibold text-lg ${changeColor}`}>{change > 0 ? '+' : ''}${change.toFixed(2)}</p>
+                        <p className={`font-semibold text-lg ${changeColor}`}>{change > 0 ? '+' : ''}{change.toFixed(2)}</p>
                         <p className="text-slate-500 text-xs">{t['bonus.totalBonusChange']}</p>
                     </div>
                      <div className="text-center p-2 bg-white rounded shadow-sm">

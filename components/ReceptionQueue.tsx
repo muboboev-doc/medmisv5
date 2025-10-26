@@ -1,7 +1,11 @@
 
 
+
+
+
 import React, { useState, useEffect, useCallback } from 'react';
-import { QueueItem, Priority, QueueStatus, Referral, Permissions, UserRole, Room, Slot } from '../types'; // Corrected path
+// FIX: Import TranslationMap for correct typing of the 't' prop.
+import { QueueItem, Priority, QueueStatus, Referral, Permissions, UserRole, Room, Slot, TranslationMap } from '../types'; // Corrected path
 import { summarizeText } from '../services/geminiService'; // Corrected path
 import { SparklesIcon, LoadingIcon, QrCodeIcon } from './Icons'; // Corrected path
 import BookingFormModal from './reception/BookingFormModal'; // Corrected path
@@ -9,11 +13,13 @@ import QrScanModal from './reception/QrScanModal'; // Corrected path
 import * as api from '../services/api'; // Corrected path
 
 interface ReceptionQueueProps {
-  t: Record<string, string>;
+  // FIX: Change 't' prop type to TranslationMap for correct type checking.
+  t: TranslationMap;
   permissions: Permissions;
 }
 
-const QueueItemRow: React.FC<{ item: QueueItem, t: Record<string, string>, permissions: Permissions }> = ({ item, t, permissions }) => {
+// FIX: Change 't' prop type to TranslationMap in QueueItemRow props.
+const QueueItemRow: React.FC<{ item: QueueItem, t: TranslationMap, permissions: Permissions }> = ({ item, t, permissions }) => {
     const [summary, setSummary] = useState<string>('');
     const [isSummarizing, setIsSummarizing] = useState<boolean>(false);
 
@@ -65,18 +71,21 @@ const QueueItemRow: React.FC<{ item: QueueItem, t: Record<string, string>, permi
             <td className="px-4 py-3 text-slate-600">{item.roomName}</td>
             <td className="px-4 py-3">
                 <span className={`px-2 py-1 text-xs font-semibold rounded-full ${priorityClasses[item.priority]}`}>
-                    {t[`reception.priority.${item.priority.toLowerCase()}`] || item.priority}
+                    {/* FIX: Ensure translation value is treated as a string */}
+                    {t[`reception.priority.${item.priority.toLowerCase()}`] as string || item.priority}
                 </span>
             </td>
             <td className="px-4 py-3">
                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${statusClasses[item.status]} ${textStatusClasses[item.status]}`}>
-                    {t[statusTranslationKey[item.status]] || item.status}
+                    {/* FIX: Ensure translation value is treated as a string */}
+                    {t[statusTranslationKey[item.status]] as string || item.status}
                 </span>
             </td>
             <td className="px-4 py-3">
                 <div className="flex flex-col">
                     <p className="text-slate-700 truncate max-w-xs" title={item.complaints}>{item.complaints}</p>
-                    {permissions.canSummarizeWithAI && summary && <p className="text-sm text-purple-700 mt-1">{t.summary}: {summary}</p>}
+                    {/* FIX: Ensure translation value is treated as a string */}
+                    {permissions.canSummarizeWithAI && summary && <p className="text-sm text-purple-700 mt-1">{t.summary as string}: {summary}</p>}
                 </div>
             </td>
             <td className="px-4 py-3">
@@ -91,7 +100,8 @@ const QueueItemRow: React.FC<{ item: QueueItem, t: Record<string, string>, permi
                         ) : (
                             <SparklesIcon className="h-4 w-4 mr-1"/>
                         )}
-                        {t.summarize}
+                        {/* FIX: Ensure translation value is treated as a string */}
+                        {t.summarize as string}
                     </button>
                 )}
             </td>
@@ -177,20 +187,23 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
 
         <div className="bg-white p-6 rounded-lg shadow-sm">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-slate-800">{t.patientsQueue}</h2>
+                {/* FIX: Cast translation to string */}
+                <h2 className="text-2xl font-bold text-slate-800">{t.patientsQueue as string}</h2>
                 <div className="flex space-x-2">
                     <button 
                         onClick={() => setIsQrScanModalOpen(true)}
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-700 bg-blue-100 rounded-md hover:bg-blue-200"
                     >
                         <QrCodeIcon className="h-5 w-5 mr-2" />
-                        {t['reception.scanQr']}
+                        {/* FIX: Cast translation to string */}
+                        {t['reception.scanQr'] as string}
                     </button>
                     <button 
                         onClick={openBookingModal}
                         className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md shadow-sm hover:bg-blue-700"
                     >
-                        {t['reception.addToQueue']}
+                        {/* FIX: Cast translation to string */}
+                        {t['reception.addToQueue'] as string}
                     </button>
                 </div>
             </div>
@@ -202,14 +215,20 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
                     <table className="w-full text-sm text-left text-slate-500">
                         <thead className="text-xs text-slate-700 uppercase bg-slate-100">
                             <tr>
-                                <th scope="col" className="px-4 py-3">{t.time}</th>
-                                {/* Updated from t[UserRole.Patient] to t.roles[UserRole.Patient] */}
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.time as string}</th>
+                                {/* FIX: Updated from t[UserRole.Patient] to t.roles[UserRole.Patient] */}
                                 <th scope="col" className="px-4 py-3">{t.roles[UserRole.Patient]}</th>
-                                <th scope="col" className="px-4 py-3">{t.room}</th>
-                                <th scope="col" className="px-4 py-3">{t.priority}</th>
-                                <th scope="col" className="px-4 py-3">{t.status}</th>
-                                <th scope="col" className="px-4 py-3">{t.complaints}</th>
-                                <th scope="col" className="px-4 py-3">{t.actions}</th>
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.room as string}</th>
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.priority as string}</th>
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.status as string}</th>
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.complaints as string}</th>
+                                {/* FIX: Cast translation to string */}
+                                <th scope="col" className="px-4 py-3">{t.actions as string}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -218,7 +237,8 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
                     </table>
                 </div>
             ) : (
-                <p className="text-slate-500 text-center py-8">{t.noQueue}</p>
+                // FIX: Cast translation to string
+                <p className="text-slate-500 text-center py-8">{t.noQueue as string}</p>
             )}
         </div>
     </div>

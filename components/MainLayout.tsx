@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { UserRole, Language, Module, Permissions, TranslationMap } from '../types';
 import Sidebar from './Sidebar';
@@ -21,6 +22,7 @@ import ModuleConstructor from './module_constructor/ModuleConstructor';
 import TestSandbox from './test_sandbox/TestSandbox';
 import DicomHub from './dicom_hub/DicomHub';
 import MedRepInterface from './medrep_interface/MedRepInterface'; // New import
+import ClinicManagement from './clinic/ClinicManagement'; // Assuming this is the new component
 
 import { LoadingIcon } from './Icons';
 
@@ -82,8 +84,11 @@ const MainLayout: React.FC<MainLayoutProps> = ({
                 return <DicomHub t={t} permissions={permissions} />;
             case Module.MedRepInterface: // New module case
                 return <MedRepInterface t={t} permissions={permissions} />;
+            case Module.Clinic:
+                return <ClinicManagement t={t} permissions={permissions} />;
             default:
-                return <div className="p-8 text-center text-slate-500">{t.unauthorized}</div>;
+                // FIX: Cast translation to string
+                return <div className="p-8 text-center text-slate-500">{t.unauthorized as string}</div>;
         }
     };
 
