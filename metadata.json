@@ -1,0 +1,5 @@
+{
+  "name": "MedMIS Core 2.0 Frontend",
+  "description": "A React and TailwindCSS implementation of the MedMIS Core 2.0 frontend, focusing on the Reception and Referrer Portal modules. It features role-based UIs, dynamic slot booking with complex business rules, and an AI-powered patient complaint summarization tool using the Gemini API.",
+  "requestFramePermissions": []
+}
