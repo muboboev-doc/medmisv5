@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { FinanceStatement, DebtInfo, UserRole, StatementLine } from '../../types';
+import { FinanceStatement, DebtInfo, UserRole, StatementLine, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, BanknotesIcon, ArrowDownOnSquareIcon, UserGroupIcon, UserCircleIcon, ShieldCheckIcon } from '../Icons';
 
 interface ClinicFinanceProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const KpiCard: React.FC<{ title: string; value: string; icon: React.FC<{className?: string}> }> = ({ title, value, icon: Icon }) => (
@@ -20,7 +21,8 @@ const KpiCard: React.FC<{ title: string; value: string; icon: React.FC<{classNam
     </div>
 );
 
-const RoleBarChart: React.FC<{ data: Record<UserRole, number>, t: Record<string, string> }> = ({ data, t }) => {
+// FIX: Update 't' prop type in RoleBarChart to TranslationMap
+const RoleBarChart: React.FC<{ data: Record<UserRole, number>, t: TranslationMap }> = ({ data, t }) => {
     // FIX: Explicitly cast values to Number to prevent type errors during arithmetic operations.
     const maxValue = Math.max(1, ...Object.values(data).map(Number));
     const sortedData = Object.entries(data).sort(([, a], [, b]) => Number(b) - Number(a));

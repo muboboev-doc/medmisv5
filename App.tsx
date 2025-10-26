@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { UserRole, Language, Module, Permissions } from './types';
+import { UserRole, Language, Module, Permissions, TranslationMap } from './types';
 import { translations, ROLE_MODULES } from './constants';
 import MainLayout from './components/MainLayout';
 import * as api from './services/api';
@@ -12,7 +12,8 @@ const App: React.FC = () => {
   // Determine the initial module based on the default role
   const [activeModule, setActiveModule] = useState<Module>(ROLE_MODULES[role][0]);
 
-  const t = useMemo(() => translations[language], [language]);
+  // FIX: Type 't' as TranslationMap to correctly handle nested translation objects like 'roles'.
+  const t: TranslationMap = useMemo(() => translations[language], [language]);
 
   // Effect to reset the active module and fetch permissions when the role changes
   useEffect(() => {

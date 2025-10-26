@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Rule } from '../../types';
+import { Rule, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, CogIcon, CodeBracketIcon } from '../Icons';
 
 interface RulesEngineProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 type RuleType = 'integrations' | 'queue' | 'sla';

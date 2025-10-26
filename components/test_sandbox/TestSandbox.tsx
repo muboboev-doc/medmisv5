@@ -1,7 +1,10 @@
+
 import React from 'react';
+import { TranslationMap } from '../../types';
 
 interface TestSandboxProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const TestSandbox: React.FC<TestSandboxProps> = ({ t }) => {

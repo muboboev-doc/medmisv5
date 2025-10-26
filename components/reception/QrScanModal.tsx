@@ -1,14 +1,16 @@
 
+
 import React, { useState } from 'react';
 import * as api from '../../services/api';
 import { LoadingIcon } from '../Icons';
-import { Referral, ReferralStatus } from '../../types';
+import { Referral, ReferralStatus, TranslationMap } from '../../types';
 
 interface QrScanModalProps {
     isOpen: boolean;
     onClose: () => void;
     onScan: (referral: Referral) => void;
-    t: Record<string, string>;
+    // FIX: Use TranslationMap for 't' prop
+    t: TranslationMap;
 }
 
 const QrScanModal: React.FC<QrScanModalProps> = ({ isOpen, onClose, onScan, t }) => {

@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { Language, I18nCoverage } from '../../types';
+import { Language, I18nCoverage, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { ALL_LANGUAGES } from '../../constants';
 // FIX: Replaced DocumentMagnifyingGlassIcon with SearchIcon which is already defined.
 import { LoadingIcon, SearchIcon, ArrowDownTrayIcon, ArrowUpTrayIcon } from '../Icons';
 
 interface LanguageManagerProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const LanguageManager: React.FC<LanguageManagerProps> = ({ t }) => {
@@ -55,4 +56,12 @@ const LanguageManager: React.FC<LanguageManagerProps> = ({ t }) => {
     }, [allKeys, searchQuery, editableLocales]);
 
     const handleValueChange = (lang: Language, key: string, value: string) => {
+        // FIX: Ensure prev[lang] is an object before spreading to prevent type errors
         setEditableLocales(prev => ({
+            ...prev,
+            [lang]: {
+                ...(prev[lang] || {}), // Initialize with empty object if undefined
+                [key]: value
+            }
+        }));
+    };

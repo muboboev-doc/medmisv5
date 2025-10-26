@@ -1,6 +1,7 @@
 
+
 import React, { useState, useEffect } from 'react';
-import { Slot, Priority, Room, Referral } from '../../types';
+import { Slot, Priority, Room, Referral, TranslationMap } from '../../types';
 import { ALL_PRIORITIES } from '../../constants';
 import { LoadingIcon } from '../Icons';
 import * as api from '../../services/api';
@@ -10,7 +11,8 @@ interface BookingFormModalProps {
     isOpen: boolean;
     onClose: () => void;
     onBook: (slotId: string, patientName: string, complaints: string, priority: Priority) => Promise<boolean>;
-    t: Record<string, string>;
+    // FIX: Use TranslationMap for 't' prop
+    t: TranslationMap;
     clinicId: string;
     initialReferral: Referral | null;
 }

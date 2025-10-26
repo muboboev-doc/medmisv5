@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { SuperAdminOverview, Policy } from '../../types';
+import { SuperAdminOverview, Policy, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, BanknotesIcon, UserGroupIcon, ChartBarIcon, ArrowTrendingUpIcon, DocumentChartBarIcon, MegaphoneIcon } from '../Icons';
 
 interface SuperAdminDashboardProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const KpiCard: React.FC<{ title: string; value: string | number; icon: React.FC<{className?: string}>, color: string }> = ({ title, value, icon: Icon, color }) => (

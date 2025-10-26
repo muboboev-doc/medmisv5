@@ -1,11 +1,12 @@
 
 import React, { useState } from 'react';
-import { UserRole } from '../../types';
+import { UserRole, TranslationMap } from '../../types';
 import { ALL_ROLES } from '../../constants';
 import { CubeTransparentIcon, LoadingIcon, ShieldCheckIcon } from '../Icons';
 
 interface ModuleConstructorProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const ModuleConstructor: React.FC<ModuleConstructorProps> = ({ t }) => {
@@ -80,7 +81,8 @@ const ModuleConstructor: React.FC<ModuleConstructorProps> = ({ t }) => {
                             </div>
                             <div className="ml-3 text-sm">
                                 <label htmlFor={`role-${role}`} className="font-medium text-slate-700">
-                                    {t[role] || role}
+                                    {/* FIX: Use t.roles[role] for translation */}
+                                    {t.roles[role] || role}
                                 </label>
                             </div>
                         </div>

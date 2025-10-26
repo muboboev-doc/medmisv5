@@ -1,4 +1,5 @@
 
+
 export enum PatientBookingStatus {
     Booked = 'booked',
     Paid = 'paid',
@@ -609,4 +610,12 @@ export interface RoomCompareKpi {
     avgLoadPct: number;
     totalBooked: number;
     totalCapacity: number;
+}
+
+// Interface to correctly type translation objects, allowing for nested objects like 'roles'
+export interface TranslationMap extends Record<string, string | Record<string, string>> {
+    roles: Record<UserRole, string>;
+    // Add other nested objects here if they exist, e.g., 'modules: Record<Module, string>;'
+    // Based on the provided constants, other enum values (like RoomModality, RoomStatus) are
+    // direct string keys in the translation object, so they are covered by `Record<string, string>`.
 }

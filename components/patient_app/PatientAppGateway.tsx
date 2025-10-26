@@ -1,25 +1,27 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { PatientBooking, PatientBookingStatus, PatientReport, Slot, Room, UserRole } from '../../types';
+import { PatientBooking, PatientBookingStatus, PatientReport, Slot, Room, UserRole, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, CalendarIcon, ClockIcon, CreditCardIcon, ChatBubbleLeftRightIcon, ArrowDownTrayIcon, DocumentTextIcon, FilmIcon } from '../Icons';
 import SlotSelectorPanels from '../reception/SlotSelectorPanels';
 
 
 interface PatientAppGatewayProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 type ActionState = {
     [bookingId: string]: boolean;
 };
 
+// FIX: Update 't' prop type in RescheduleModal to TranslationMap
 const RescheduleModal: React.FC<{
     isOpen: boolean;
     onClose: () => void;
     booking: PatientBooking;
-    t: Record<string, string>;
+    t: TranslationMap;
     onReschedule: (bookingId: string, newSlotId: string) => Promise<boolean>;
 }> = ({ isOpen, onClose, booking, t, onReschedule }) => {
     const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
@@ -67,10 +69,10 @@ const RescheduleModal: React.FC<{
     );
 };
 
-
+// FIX: Update 't' prop type in BookingCard to TranslationMap
 const BookingCard: React.FC<{
     booking: PatientBooking;
-    t: Record<string, string>;
+    t: TranslationMap;
     onAction: (action: 'pay' | 'cancel' | 'reschedule', booking: PatientBooking) => void;
     actionState: ActionState;
 }> = ({ booking, t, onAction, actionState }) => {
@@ -134,7 +136,8 @@ const BookingCard: React.FC<{
     );
 };
 
-const SelfBooking: React.FC<{t: Record<string, string>, patientId: string, onBookingSuccess: () => void}> = ({ t, patientId, onBookingSuccess }) => {
+// FIX: Update 't' prop type in SelfBooking to TranslationMap. Initialize selectedSlot with null.
+const SelfBooking: React.FC<{t: TranslationMap, patientId: string, onBookingSuccess: () => void}> = ({ t, patientId, onBookingSuccess }) => {
     const [rooms, setRooms] = useState<Room[]>([]);
     const [selectedRoomId, setSelectedRoomId] = useState<string>('');
     // FIX: Initialized selectedSlot with null to prevent usage before declaration.
@@ -193,7 +196,8 @@ const SelfBooking: React.FC<{t: Record<string, string>, patientId: string, onBoo
     );
 };
 
-const ReportCard: React.FC<{ report: PatientReport; t: Record<string, string> }> = ({ report, t }) => (
+// FIX: Update 't' prop type in ReportCard to TranslationMap
+const ReportCard: React.FC<{ report: PatientReport; t: TranslationMap }> = ({ report, t }) => (
     <div className="bg-white p-4 rounded-lg shadow-sm border flex items-center justify-between">
         <div className="flex items-center">
             <div className="p-3 rounded-full bg-indigo-100 text-indigo-600 mr-4">

@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Study, StudyDetails, Priority, FileMetadata, UserRole } from '../../types';
+import { Study, StudyDetails, Priority, FileMetadata, UserRole, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, DocumentTextIcon, FilmIcon, UserCircleIcon } from '../Icons';
 
 interface RadiologyWorkbenchProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const InboxItem: React.FC<{ study: Study, isSelected: boolean, onSelect: (id: string) => void }> = ({ study, isSelected, onSelect }) => (
@@ -21,7 +22,8 @@ const InboxItem: React.FC<{ study: Study, isSelected: boolean, onSelect: (id: st
     </button>
 );
 
-const DetailPanel: React.FC<{ details: StudyDetails, t: Record<string, string> }> = ({ details, t }) => {
+// FIX: Update 't' prop type in DetailPanel to TranslationMap
+const DetailPanel: React.FC<{ details: StudyDetails, t: TranslationMap }> = ({ details, t }) => {
     const priorityClasses: Record<Priority, string> = {
         [Priority.SR]: 'bg-red-100 text-red-800',
         [Priority.STD]: 'bg-blue-100 text-blue-800',

@@ -1,7 +1,6 @@
 
-
 import React from 'react';
-import { UserRole, Language } from '../../types';
+import { UserRole, Language, TranslationMap } from '../../types';
 import { ALL_ROLES, ALL_LANGUAGES } from '../../constants';
 import { ChevronDownIcon, LogoutIcon } from '../Icons';
 
@@ -10,7 +9,8 @@ interface HeaderProps {
   setRole: (role: UserRole) => void;
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const Header: React.FC<HeaderProps> = ({ role, setRole, language, setLanguage, t }) => {

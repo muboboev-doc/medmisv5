@@ -1,6 +1,7 @@
 
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { Slot } from '../../types';
+import { Slot, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { UserRole } from '../../types';
 import { LoadingIcon } from '../Icons';
@@ -10,7 +11,8 @@ interface SlotSelectorPanelsProps {
     roomId: string;
     selectedSlot: Slot | null;
     onSelectSlot: (slot: Slot | null) => void;
-    t: Record<string, string>;
+    // FIX: Use TranslationMap for 't' prop
+    t: TranslationMap;
 }
 
 enum Panel { Today, Periods, Other }

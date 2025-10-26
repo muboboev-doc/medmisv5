@@ -74,6 +74,7 @@ export const translations = {
     "reception.loading": "Loading...",
     "reception.noSlotsForPeriod": "No available slots for the selected period.",
     "reception.workload": "Workload",
+    "reception.errorFetchingQueue": "Error fetching today's queue. Please try again.",
     
     // MRT Module Keys
     "mrt.title": "MRT/CT Room",
@@ -565,6 +566,7 @@ export const translations = {
     "reception.loading": "Загрузка...",
     "reception.noSlotsForPeriod": "Нет доступных слотов на выбранный период.",
     "reception.workload": "Загруженность",
+    "reception.errorFetchingQueue": "Ошибка при получении очереди на сегодня. Пожалуйста, попробуйте снова.",
     
     // MRT Module Keys
     "mrt.title": "Кабинет МРТ/КТ",

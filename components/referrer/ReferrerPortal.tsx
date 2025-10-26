@@ -1,13 +1,13 @@
 
-
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { Slot, Priority, UserRole, Referral, ReferralStatus } from '../../types';
+import { Slot, Priority, UserRole, Referral, ReferralStatus, TranslationMap } from '../../types';
 import { CalendarIcon, ClockIcon, LoadingIcon, ShareIcon, ClipboardCopyIcon, QrCodeIcon, SearchIcon } from '../Icons';
 import SlotCalendar from '../shared/SlotCalendar'; // Updated import path to shared SlotCalendar
 import * as api from '../../services/api';
 
 interface ReferrerPortalProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
   role: UserRole; // Added role prop as expected by MainLayout
 }
 
@@ -222,12 +222,14 @@ const ReferrerPortal: React.FC<ReferrerPortalProps> = ({ t, role }) => {
                                         </td>
                                         <td className="px-4 py-3">
                                             <div className="flex items-center space-x-2">
+                                                {/* FIX: Removed 'title' prop as it's not part of IconProps */}
                                                 <button onClick={() => handleCopy(referral.qrCode)} className="p-1.5 rounded-md hover:bg-slate-100 text-slate-500 relative">
                                                     {copiedCode === referral.qrCode && <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-xs bg-green-500 text-white px-2 py-1 rounded">{t['ref.copied']}</span>}
-                                                    <ClipboardCopyIcon className="h-4 w-4" title={t['ref.copy']} />
+                                                    <ClipboardCopyIcon className="h-4 w-4" />
                                                 </button>
+                                                {/* FIX: Removed 'title' prop as it's not part of IconProps */}
                                                 <button onClick={() => navigator.share && navigator.share({title: t.appName, text: `Referral for ${referral.patientHint.name}: ${referral.qrCode}`, url: referral.qrCode})} className="p-1.5 rounded-md hover:bg-slate-100 text-slate-500">
-                                                    <ShareIcon className="h-4 w-4" title={t['ref.share']} />
+                                                    <ShareIcon className="h-4 w-4" />
                                                 </button>
                                             </div>
                                         </td>

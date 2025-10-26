@@ -1,12 +1,13 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { SlaSetting, BonusSetting, Priority, SlaDryRunResult } from '../../types';
+import { SlaSetting, BonusSetting, Priority, SlaDryRunResult, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, CalculatorIcon } from '../Icons';
 
 interface BonusSlaControlProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const BonusSlaControl: React.FC<BonusSlaControlProps> = ({ t }) => {

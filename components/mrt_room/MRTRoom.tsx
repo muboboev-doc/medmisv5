@@ -1,19 +1,21 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { QueueItem, Study, Room, Priority, QueueStatus, StudyStatus, FileMetadata, UserRole } from '../../types';
+import { QueueItem, Study, Room, Priority, QueueStatus, StudyStatus, FileMetadata, UserRole, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { ClockIcon, DocumentTextIcon, FilmIcon, LoadingIcon } from '../Icons';
 
 interface MRTRoomProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
+// FIX: Update 't' prop type in UploadModal to TranslationMap
 interface UploadModalProps {
     isOpen: boolean;
     onClose: () => void;
     study: Study;
-    t: Record<string, string>;
+    t: TranslationMap;
     onUpload: (studyId: string, file: Omit<FileMetadata, 'id' | 'uploadedAt'>) => Promise<void>;
 }
 
@@ -87,10 +89,11 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose, study, t, on
     );
 };
 
+// FIX: Update 't' prop type in PatientCard to TranslationMap
 interface PatientCardProps {
     queueItem: QueueItem;
     study: Study | undefined;
-    t: Record<string, string>;
+    t: TranslationMap;
     onAction: (action: 'start' | 'upload' | 'finish' | 'noShow', queueItemId: string, studyId?: string) => void;
 }
 

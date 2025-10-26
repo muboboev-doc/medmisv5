@@ -1,19 +1,22 @@
 
+
 import React, { useState, useEffect, useCallback } from 'react';
-import { MedRepDash, MedRepTask, MedRepTaskStatus, MedRepChat, MedRepMessage, UserRole, Permissions, User } from '../../types';
+import { MedRepDash, MedRepTask, MedRepTaskStatus, MedRepChat, MedRepMessage, UserRole, Permissions, User, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, ArrowTrendingUpIcon, ClipboardCopyIcon, ChatBubbleLeftRightIcon, UserCircleIcon, CalendarIcon, CogIcon } from '../Icons';
 
 interface MedRepInterfaceProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
   permissions: Permissions;
 }
 
+// FIX: Update 't' prop type in AddTaskModal to TranslationMap
 interface AddTaskModalProps {
     isOpen: boolean;
     onClose: () => void;
     onAddTask: (title: string, dueAt: string, relatedClinicId?: string) => Promise<void>;
-    t: Record<string, string>;
+    t: TranslationMap;
     isLoading: boolean;
 }
 

@@ -1,12 +1,13 @@
 
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { ManagerKpis, QueueItem, Priority, UserRole, QueueStatus } from '../../types';
+import { ManagerKpis, QueueItem, Priority, UserRole, QueueStatus, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { LoadingIcon, ArrowUpCircleIcon, UserPlusIcon, UserCircleIcon } from '../Icons';
 
 interface ManagerPanelProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const KpiCard: React.FC<{ title: string; value: string | number; children?: React.ReactNode }> = ({ title, value, children }) => (
@@ -44,12 +45,13 @@ const KpiGraph: React.FC<{title: string, data: Record<string, number>}> = ({titl
 };
 
 
+// FIX: Update 't' prop type in AssignModal to TranslationMap
 const AssignModal: React.FC<{
     isOpen: boolean;
     onClose: () => void;
     onAssign: (radiologistId: string) => Promise<void>;
     radiologists: {_id: string, name: string}[];
-    t: Record<string, string>;
+    t: TranslationMap;
 }> = ({ isOpen, onClose, onAssign, radiologists, t }) => {
     const [selectedRad, setSelectedRad] = useState('');
     const [isAssigning, setIsAssigning] = useState(false);

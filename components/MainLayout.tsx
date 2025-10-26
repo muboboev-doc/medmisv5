@@ -1,7 +1,6 @@
 
-
 import React from 'react';
-import { UserRole, Language, Module, Permissions } from '../types';
+import { UserRole, Language, Module, Permissions, TranslationMap } from '../types';
 import Sidebar from './Sidebar';
 import Header from './shared/Header'; // Using the shared Header
 
@@ -30,7 +29,8 @@ interface MainLayoutProps {
     setRole: (role: UserRole) => void;
     language: Language;
     setLanguage: (lang: Language) => void;
-    t: Record<string, string>;
+    // FIX: Use TranslationMap for 't' prop
+    t: TranslationMap;
     activeModule: Module;
     setActiveModule: (module: Module) => void;
     permissions: Permissions | null;

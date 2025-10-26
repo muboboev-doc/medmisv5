@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { User, UserRole, Permissions } from '../../types';
+import { User, UserRole, Permissions, TranslationMap } from '../../types';
 import * as api from '../../services/api';
 import { ALL_ROLES } from '../../constants';
 import { LoadingIcon, KeyIcon } from '../Icons';
 
 interface RoleAccessManagerProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
 }
 
 const RoleAccessManager: React.FC<RoleAccessManagerProps> = ({ t }) => {

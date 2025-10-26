@@ -1,7 +1,6 @@
 
-
 import React, { useState, useEffect, useCallback } from 'react';
-import { QueueItem, Priority, QueueStatus, Referral, Permissions, UserRole, Room, Slot } from '../../types';
+import { QueueItem, Priority, QueueStatus, Referral, Permissions, UserRole, Room, Slot, TranslationMap } from '../../types';
 import { summarizeText } from '../../services/geminiService';
 import { SparklesIcon, LoadingIcon, QrCodeIcon } from '../Icons';
 import BookingFormModal from './BookingFormModal';
@@ -9,11 +8,26 @@ import QrScanModal from './QrScanModal';
 import * as api from '../../services/api';
 
 interface ReceptionQueueProps {
-  t: Record<string, string>;
+  // FIX: Use TranslationMap for 't' prop
+  t: TranslationMap;
   permissions: Permissions;
 }
 
-const QueueItemRow: React.FC<{ item: QueueItem, t: Record<string, string>, permissions: Permissions }> = ({ item, t, permissions }) => {
+// Simple Toast component
+const Toast: React.FC<{ message: string; type: 'success' | 'error'; onClose: () => void }> = ({ message, type, onClose }) => {
+    const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+    return (
+        <div className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg text-white transition-opacity duration-300 ${bgColor}`}>
+            <div className="flex items-center">
+                <span>{message}</span>
+                <button onClick={onClose} className="ml-4 text-white font-bold">&times;</button>
+            </div>
+        </div>
+    );
+};
+
+// FIX: Update 't' prop type in QueueItemRow to TranslationMap
+const QueueItemRow: React.FC<{ item: QueueItem, t: TranslationMap, permissions: Permissions }> = ({ item, t, permissions }) => {
     const [summary, setSummary] = useState<string>('');
     const [isSummarizing, setIsSummarizing] = useState<boolean>(false);
 
@@ -109,6 +123,18 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isQrScanModalOpen, setIsQrScanModalOpen] = useState(false);
   const [initialReferralFromQr, setInitialReferralFromQr] = useState<Referral | null>(null);
+  
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [toastType, setToastType] = useState<'success' | 'error' | ''>('');
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToastMessage(message);
+    setToastType(type);
+    setTimeout(() => {
+        setToastMessage('');
+        setToastType('');
+    }, 3000); // Toast disappears after 3 seconds
+  };
 
   const fetchQueueData = useCallback(async () => {
     setLoadingQueue(true);
@@ -117,10 +143,11 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
       setQueue(fetchedQueue);
     } catch (error) {
       console.error("Error fetching reception queue:", error);
+      showToast(t['reception.errorFetchingQueue'], 'error');
     } finally {
       setLoadingQueue(false);
     }
-  }, [clinicId]);
+  }, [clinicId, t]);
 
   useEffect(() => {
     fetchQueueData();
@@ -139,10 +166,11 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
       await api.bookSlot(slotId, patientName, complaints, priority, initialReferralFromQr?.qrCode);
       setInitialReferralFromQr(null); // Clear referral after successful booking
       fetchQueueData(); // Refresh queue
+      showToast(t.bookingSuccessful, 'success');
       return true;
     } catch (error) {
       console.error("Booking failed:", error);
-      // In a real app, display an error toast
+      showToast(t.bookingFailed, 'error');
       return false;
     }
   };
@@ -160,6 +188,8 @@ const ReceptionQueue: React.FC<ReceptionQueueProps> = ({ t, permissions }) => {
 
   return (
     <div className="space-y-8">
+        {toastMessage && <Toast message={toastMessage} type={toastType as 'success' | 'error'} onClose={() => setToastMessage('')} />}
+
         <BookingFormModal
             isOpen={isBookingModalOpen}
             onClose={() => setIsBookingModalOpen(false)}
